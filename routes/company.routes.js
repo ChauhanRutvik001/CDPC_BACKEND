@@ -6,7 +6,7 @@ import {
   deleteCompany,
   updateCompany,
 } from "../controllers/CompanyController.js";
-import { approveCompany } from "../controllers/companyController.js";
+import { approveCompany } from "../controllers/CompanyController.js";
 import { isAdmin, isAuthorized } from "../middlewares/auth.js";
 
 const router = express.Router();
