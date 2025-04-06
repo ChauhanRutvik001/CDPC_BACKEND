@@ -36,7 +36,7 @@ app.use("/uploads", express.static("uploads"));
 // Enhanced CORS setup for production
 const allowedOrigins = process.env.ALLOWED_ORIGINS 
   ? process.env.ALLOWED_ORIGINS.split(',') 
-  : ['http://localhost:5173', 'https://your-production-frontend.com'];
+  : ['http://localhost:5173', 'https://your-production-frontend.com','https://cdpc-frontend.onrender.com'];
 
 const corsOptions = {
   origin: function (origin, callback) {
