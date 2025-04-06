@@ -4,6 +4,12 @@ import express from "express";
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+// Get directory name in ES module
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Import routes
 import authRoutes from "./routes/auth.js";
@@ -31,7 +37,13 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
-app.use("/uploads", express.static("uploads"));
+
+// Configure static files with CORS headers
+app.use("/uploads", (req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*'); 
+  res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+  next();
+}, express.static(path.join(__dirname, "uploads")));
 
 // Enhanced CORS setup for production
 const allowedOrigins = process.env.ALLOWED_ORIGINS 
