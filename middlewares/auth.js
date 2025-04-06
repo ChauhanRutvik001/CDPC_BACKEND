@@ -8,7 +8,8 @@ export const isAuthorized = async (req, res, next) => {
     }
 
     const token = req.headers.cookie.slice(6); // Assuming 'token' starts after the first 6 characters
-
+    console.log("Headers: ", req.headers.cookie);
+    
     const decoded = await verifyToken(token);
 
     const user = await User.findById(decoded.id, { password: 0 });

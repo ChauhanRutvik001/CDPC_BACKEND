@@ -69,13 +69,15 @@ export const login = async (req, res) => {
       .status(200)
       .cookie("token", token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
+        secure: true, // Always use secure for cross-domain
+        sameSite: 'none', // Required for cross-site cookies
         expires: new Date(Date.now() + oneDay),
       })
       .json({
         message: "Welcome back!",
         firstTimeLogin: user.firstTimeLogin,
-        user: userData,  // Send user data without password
+        user: userData,
+        token: token, // Also send token in response body as fallback
         success: true,
       });
   } catch (error) {
@@ -173,8 +175,10 @@ export const logout = async (req, res) => {
     await User.updateOne({ _id: user._id }, { $set: { sessionId: null } });
 
     res.cookie("token", "logout", {
-      expires: new Date(Date.now()),
       httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+      expires: new Date(Date.now()),
     });
 
     console.log("logout success");
@@ -384,12 +388,14 @@ export const googleLogin = async (req, res) => {
       .status(200)
       .cookie("token", token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
+        secure: true,
+        sameSite: 'none',
         expires: new Date(Date.now() + oneDay),
       })
       .json({
         message: "Google login successful!",
         user: userData,
+        token: token, // Add token to response body
         success: true,
       });
   } catch (error) {
