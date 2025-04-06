@@ -1,6 +1,6 @@
 import User from "../models/user.js";
 import { GridFSBucket } from "mongodb";
-import { mongoose } from "../app.js";
+import { mongoose } from "../index.js";
 
 export const getUserDetails = async (req, res) => {
   try {
